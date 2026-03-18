@@ -1,0 +1,757 @@
+from datetime import datetime
+customers={}
+banks={}
+transactions={}
+
+
+
+def add_customers_and_details():
+    for i in range(1,6):
+        try:
+          name=input(" enter the customer name :")
+          balance=int(input(" enter customer bank balance :"))
+          account_type=input(" enter the account type :")
+          customers[name]={"account type":account_type, "balance":balance}
+          transactions[name]=[]
+          transactions[name].append({"Action":"account opening","Amount" : balance, "Before": "-", "After": balance, "time" :datetime.now().strftime("%Y-%m-%d %H:%M:%S")})
+          print(f"\n {i}.Customer name : {name} | account type : {account_type} & balance : {balance} | ")
+          continuation=input("\n do you want to contnue adding customers ?? Yes (Y) or No (N) :")
+          if (continuation=="Y"):
+              pass
+          else:
+              break
+        except Exception as e:
+            print(f"the error is : {e}")
+            print("!!! Retry adding customers details with caution !!!")
+            break
+    print(f" customers in the bank : {customers} ")
+
+
+
+def A_customers_details(name,customers):
+       if(name in customers):
+           print(f"customer & their details : {name}")
+           print("account type : ", customers[name]['account type'] +'  '+ "bank balance : ",str(customers[name]['balance']))
+       elif(name==""):
+           print("name cant be empty")
+       else:
+           print("the customer is not in the records")
+
+def AllTransactions():
+     print(transactions)
+
+
+def AllTransactionsOfASingleUser(name,transactions):
+     if (name in transactions):
+         return transactions[name]
+     elif(name==""):
+         return "customer name cant be empty"
+     else:
+         return "there is no such customer in our records"
+         
+
+
+
+
+class deposit_withdraw():
+   
+   def __init__(self,name,deposit_amount,customers,withdraw_amount):
+       self.name=name
+       self.deposit_amount=deposit_amount
+       self.customers=customers
+       self.withdraw_amount=withdraw_amount
+
+
+   def deposit(self):
+       if (self.name in self.customers):
+           if(self.deposit_amount>0):
+               self.customers[self.name]["balance"]+=self.deposit_amount
+               transactions[self.name].append({"Action":"Deposit","Amount" : self.deposit_amount, "Before": self.customers[self.name]["balance"]-self.deposit_amount, "After": self.customers[self.name]["balance"], "time" :datetime.now().strftime("%Y-%m-%d %H:%M:%S")})
+               return self.customers[self.name]["balance"]
+           else:
+               print(" \n deposit can't be a negative value or are you trying withdraw amount !? ")
+
+       elif(self.name==""):
+           print(" ! please dont leave empty space as name for the customer name field !")
+
+       else:
+           print("the customer is not in our records")
+
+
+   def withdraw(self):
+       if (self.name in self.customers):
+           
+           if(self.withdraw_amount<=0):
+               print(" \n deposit amount cannot be lesser than zero, WITHDRAW AMOUNT must be greater than zero !?")
+
+           elif(self.withdraw_amount<=self.customers[self.name]["balance"]):
+                self.customers[self.name]["balance"]-=self.withdraw_amount
+                transactions[self.name].append({"Action":"Withdraw","Amount" : self.withdraw_amount, "Before": self.customers[self.name]["balance"]+self.withdraw_amount, "After": self.customers[self.name]["balance"], "time" :datetime.now().strftime("%Y-%m-%d %H:%M:%S")})
+                return self.customers[self.name]["balance"]
+           
+           else:
+               print("the entered amount is higher than your balance")
+               print("enter a amount within your bank balance")
+                
+       elif(self.name==""):
+           print(" ! please dont leave empty space as name for the customer name field !")
+           
+       else:
+           print("the customer is not in our records")       
+       
+
+
+
+while True:
+
+  try:
+    print("\n Enter the operation you want to perform ?!")
+    print("ENTER '1' : ADDING CUSTOMERS AND THEIR DETAILS ")
+    print("ENTER '2' : TO FIND A CUSTOMER ")
+    print("ENTER '3' : TO ADD NEW DEPOSIT ")
+    print("ENTER '4' : TO WITHDRAW SOME AMOUNT ")
+    print("ENTER '5' : TO SEE ALL TRANSACTIONS ")
+    print("ENTER '6' : TO SEE ALL TRANSACTIONS OF A SINGLE CUSTOMER ")
+    print("ENTER '0' : TO EXIT BANK")
+    operation_you_want_to_perform=int(input("\n enter your operation : "))
+
+
+    if(operation_you_want_to_perform==1):
+        print(" 1. ADDING CUSTOMERS AND THEIR DETAILS !! ")
+        add_customers_and_details()
+
+
+    elif(operation_you_want_to_perform==2):
+        print(" 2. FINDING A CUSTOMER !! ")
+        name=input("customer name : ")
+        customer=A_customers_details(name,customers)
+        
+
+
+    elif(operation_you_want_to_perform==3):
+        print(" 3. ADDING NEW DEPOSIT !! ")
+        name=input(" enter the customer name : ")
+        deposit_amount=int(input(" enter the amount you wish to deposit : "))
+        depo=deposit_withdraw(name,deposit_amount,customers,0)
+        print("NEW BALANCE : ",depo.deposit())
+
+
+    elif(operation_you_want_to_perform==4):
+        print(" 4. WITHDRAWING SOME AMOUNT !! ")
+        name=input(" enter the customer name : ")
+        withdraw_amount=int(input(" enter the amount you wish to withdraw : "))
+        withd=deposit_withdraw(name,0,customers,withdraw_amount)
+        print("NEW BALANCE : ",withd.withdraw())
+
+
+    elif(operation_you_want_to_perform==5):
+        print("5. ALL TRANSACTIONS !! ")
+        AllTransactions()
+
+    elif(operation_you_want_to_perform==6):
+        print("6. ALL TRANSACTIONS OF A SINGLE CUSTOMER !! ")
+        name=input(" enter the customer name : ")
+        tnx=AllTransactionsOfASingleUser(name,transactions)
+        print(f"ALL TRANSACTIONS OF {name}: \n",tnx)
+
+
+
+    elif(operation_you_want_to_perform==0):
+        print("0. EXITING BANK ")
+        break
+
+
+    else:
+       print(" enter a valid function : 1,2,3,4,5,6,0 ")
+
+  except Exception as e:
+    print("the error is :",e)    
+    
+# my first transfer logic :
+
+class TransferAmounts():
+    def __init__(self,sender,receiver,amount):
+        self.sender=sender
+        self.receiver=receiver
+        self.amount=amount
+
+    def transfer(self):
+
+        for AccNo in customers:
+
+            if AccNo.endswith(self.sender):
+
+                if(self.amount<=0):
+                          return ({"success": False, "Error": "Invalid amount cant process transfer"})
+                          
+                else:
+                    
+                    customers[AccNo]["balance"]-=self.amount
+
+                    transactions[AccNo].append({"Action":"Transfer", "Reciever":self.receiver, "Amount": self.amount, "Before": customers[AccNo]["balance"]+self.amount, 
+                                                "After": customers[AccNo]["balance"], "time" :datetime.now().strftime("%Y-%m-%d %H:%M:%S")})
+                    
+                    #return({"success":True, "Message":"Transaction is successful", "Sender accont number":self.sender, "Senders Updated Balance":customers[AccNo]["balance"],"Receiver":self.receiver})
+
+                for AccNo in customers:
+
+                       if AccNo.endswith(self.receiver):
+                      
+                          if(self.amount<=0):
+                             
+                             return ({"success": False, "Error": "Invalid amount cant process transfer"})
+                          
+                          
+                          else:
+                              
+                              customers[AccNo]["balance"]+=self.amount
+
+
+                              transactions[AccNo].append({"Action":"Transfer", "Reciever":self.sender, "Amount": self.amount, "Before": customers[AccNo]["balance"]-self.amount, 
+                                                "After": customers[AccNo]["balance"], "time" :datetime.now().strftime("%Y-%m-%d %H:%M:%S")})
+                              
+
+                              return({"success":True, "Message":"Transaction is successful", "Sender accont number":self.sender
+                                    ,"Receiver accont number":self.receiver, "Receivers Updated Balance":customers[AccNo]["balance"]})
+                          
+                
+                return ({"success":"failure", "Error":"the receiver is not in our records"})
+                
+        
+        return ({"success":"failure", "Error":"the sender is not in our records"})
+
+
+
+
+
+
+
+
+
+        STAGE 2:
+        ---------------
+
+
+
+        DATA:
+
+        from datetime import datetime
+from flask_app import db
+from model import Customer
+import random
+customers={}
+transactions={}
+
+
+def add_customers_and_details(name,balance,account_type):
+          
+    if( name=="" or name is None or balance is None or account_type is None):
+        return ({"success":False, "Error":" you cant leave name, balance, account_type as empty"})
+    
+    if (not isinstance(balance,int)):
+        return ({"success":False,"Error":" balance value should only be in integer / number"})
+    
+    while True:
+            AccountN=random.randint(1000,9999)
+            AccNo="28270100000"+str(AccountN)
+            if (AccNo not in customers):
+                #customer=customers.query.get(1)
+                #customer=Customers("account_number"=AccNo,"name"=name,"account_type"=account_type,"balance"=balance)
+                #db.session.add(customer)
+                #db.session.commit()
+                customers[AccNo]={"name":name,"account_type":account_type, "balance":balance}
+                transactions[AccNo]=[]
+                transactions[AccNo].append({"Action":"account opening","Amount" : balance, "Before": "-","After": balance, "time" :datetime.now().strftime("%Y-%m-%d %H:%M:%S")})    
+                return ({"success":True, "Accont Number":AccNo ,"Customer name":name, "account type":account_type, "balance":balance })
+            
+
+def account_find_by_last4(accno_last4):
+    
+    if(not accno_last4 or accno_last4 is None or accno_last4 ==""):
+        return ({"success":False, "Error":"Left_Empty"})
+    
+    match=[]
+    for AccNo in customers:
+        if AccNo.endswith(accno_last4):
+            match.append(AccNo)
+
+    if(len(match)==0):
+        return ({"success":False, "Error":"Not_Found"})
+    
+    if(len(match)>1):
+        return ({"success":False, "Error":"AMBIGUOUS"})
+    
+    
+    return ({"success": True, "account": match[0]})
+ 
+def A_customers_details(accno_last4): 
+    
+    if(not accno_last4 or accno_last4 is None or accno_last4 ==""):
+        return ({"success":False, "Error":"you cant leave account number as empty"})
+    
+    acc=account_find_by_last4(accno_last4)
+
+    if(not acc["success"]):
+    
+         if(acc["Error"]=="Not_Found"):
+             return({"success":False, "Error":"the customer does not exist in our records"})
+        
+         if(acc["Error"]=="Left_Empty"):
+             return({"success":False, "Error":"you cant leave account number as empty"})
+    
+         if(acc["Error"]=="AMBIGUOUS"):
+             return({"success":False, "Error":"multiple bank accounts with the same number exists"}) 
+         
+    if(acc["success"]):
+       account=acc["account"]
+    
+    return({"success":True, "customer account number":account, "customer details":customers[account]})
+       
+    
+              
+def CheckBalance(accno_last4):
+
+    if(not accno_last4 or accno_last4 is None or accno_last4 ==""):
+        return ({"success":False, "Error":"you cant leave account number as empty"})
+        
+    acc=account_find_by_last4(accno_last4)
+
+    if(not acc["success"]):
+    
+         if(acc["Error"]=="Not_Found"):
+             return({"success":False, "Error":"the customer does not exist in our records"})
+        
+         if(acc["Error"]=="Left_Empty"):
+             return({"success":False, "Error":"you cant leave account number as empty"})
+    
+         if(acc["Error"]=="AMBIGUOUS"):
+             return({"success":False, "Error":"multiple bank accounts with the same number exists"}) 
+         
+    if(acc["success"]):
+       account=acc["account"]
+                
+    return({"success":True, "customer account number":account, "customer balance":customers[account]["balance"]})
+
+  
+    
+def AllTransactions():
+     return transactions
+
+def AllTransactionsOfASingleUser(accno_last4):
+
+    if(not accno_last4 or accno_last4 is None or accno_last4 ==""):
+        return ({"success":False, "Error":"you cant leave account number as empty"})
+    
+    acc=account_find_by_last4(accno_last4)
+
+    if(not acc["success"]):
+    
+         if(acc["Error"]=="Not_Found"):
+             return({"success":False, "Error":"the customer does not exist in our records"})
+        
+         if(acc["Error"]=="Left_Empty"):
+             return({"success":False, "Error":"you cant leave account number as empty"})
+    
+         if(acc["Error"]=="AMBIGUOUS"):
+             return({"success":False, "Error":"multiple bank accounts with the same number exists"}) 
+         
+    if(acc["success"]):
+       account=acc["account"]
+    
+    return ({"success":True, "customer account number":account, "Customers Transactions":transactions[account]})
+     
+   
+     
+def AccountClose(accno_last4):
+
+    if(not accno_last4 or accno_last4 is None or accno_last4 ==""):
+        return ({"success":False, "Error":"you cant leave account number as empty"})
+
+    acc=account_find_by_last4(accno_last4)
+    
+    if(not acc["success"]):
+    
+         if(acc["Error"]=="Not_Found"):
+             return({"success":False, "Error":"the customer does not exist in our records"})
+        
+         if(acc["Error"]=="Left_Empty"):
+             return({"success":False, "Error":"you cant leave account number as empty"})
+    
+         if(acc["Error"]=="AMBIGUOUS"):
+             return({"success":False, "Error":"multiple bank accounts with the same number exists"}) 
+         
+    if(acc["success"]):
+       account=acc["account"]
+       
+
+    del customers[account]
+    del transactions[account]
+    return({"success":True, "customer account number":account,
+            "status": "The customers account and his transactions history are deleted from our system"})
+
+def Updatedetails(accno_last4,name):
+
+    if(not accno_last4 or accno_last4 is None or accno_last4 ==""):
+        return ({"success":False, "Error":"you cant leave account number as empty"})
+
+    acc=account_find_by_last4(accno_last4)
+
+    if(not acc["success"]):
+    
+         if(acc["Error"]=="Not_Found"):
+             return({"success":False, "Error":"the customer does not exist in our records"})
+        
+         if(acc["Error"]=="Left_Empty"):
+             return({"success":False, "Error":"you cant leave account number as empty"})
+    
+         if(acc["Error"]=="AMBIGUOUS"):
+             return({"success":False, "Error":"multiple bank accounts with the same number exists"}) 
+         
+    if(acc["success"]):
+       account=acc["account"]
+    
+    if (name is None):
+        return ({"success":False, "Error":"you cant leave new name as empty"})
+    
+    if(customers[account]["name"]==name):
+        return ({"success":False, "Error":"the new name is same as the old name"})
+    
+    customers[account]["name"]=name
+    return({"success":True, "Message":"name has been successfully updated", "account_number":account,"new_name":name})
+
+    
+with&depo :
+
+from datetime import datetime
+from data import customers,transactions,account_find_by_last4
+
+class deposit_withdraw():
+   
+   def __init__(self,accno_last4,deposit_amount,withdraw_amount): 
+       self.accno_last4=accno_last4
+       self.deposit_amount=deposit_amount
+       self.withdraw_amount=withdraw_amount
+
+   def deposit(self):
+
+    acc=account_find_by_last4(self.accno_last4)
+    
+    if(not acc["success"]):
+    
+         if(acc["Error"]=="Not_Found"):
+             return({"success":False, "Error":"the customer does not exist in our records"})
+        
+         if(acc["Error"]=="Left_Empty"):
+             return({"success":False, "Error":"you cant leave account number as empty"})
+    
+         if(acc["Error"]=="AMBIGUOUS"):
+             return({"success":False, "Error":"multiple bank accounts with the same number exists"})   
+
+
+
+    if (self.deposit_amount<=0):
+       return {"success": False, "Error": "Invalid deposit amount"}
+
+    if(acc["success"]):
+       account=acc["account"]     
+    
+       try:
+            customers[account]["balance"]+=self.deposit_amount
+            transactions[account].append({"Action":"Deposit","Amount" : self.deposit_amount, "Before": customers[account]["balance"]-self.deposit_amount, 
+                                               "After": customers[account]["balance"], "time" :datetime.now().strftime("%Y-%m-%d %H:%M:%S")})
+               
+            return ({"success":True, "Message":"Transaction is successful", "customer accont number":account,
+                     "Customers Updated Balance":customers[account]["balance"]})
+       except Exception as e:
+           customers[account]["balance"]=customers[account]["balance"]
+           return ({"Success":False,"Error":e})
+
+    
+         
+   def withdraw(self):
+
+    acc=account_find_by_last4(self.accno_last4)
+    if(not acc["success"]):
+    
+         if(acc["Error"]=="Not_Found"):
+             return({"success":False, "Error":"the customer does not exist in our records"})
+        
+         if(acc["Error"]=="Left_Empty"):
+             return({"success":False, "Error":"you cant leave account number as empty"})
+    
+         if(acc["Error"]=="AMBIGUOUS"):
+             return({"success":False, "Error":"multiple bank accounts with the same number exists"}) 
+   
+    if(acc["success"]):
+       account=acc["account"]
+
+    if(self.withdraw_amount<=0):
+        return ({"success": False, "Error": "Invalid withdraw amount"})
+          
+    
+    if(self.withdraw_amount<=customers[account]["balance"]):
+          try:  
+            customers[account]["balance"]-=self.withdraw_amount
+            transactions[account].append({"Action":"Withdraw","Amount": self.withdraw_amount, "Before": customers[account]["balance"]+self.withdraw_amount, 
+                                        "After": customers[account]["balance"], "time" :datetime.now().strftime("%Y-%m-%d %H:%M:%S")})
+                
+            return ({"success":True, "Message":"Transaction is successful", "customer accont number":account,
+                     "Customers Updated Balance":customers[account]["balance"]})
+          
+          except Exception as e:
+           customers[account]["balance"]=customers[account]["balance"]
+           return ({"Success":False,"Error":e})
+           
+    else:
+           return({"success":False, "Error":"the entered amount is higher than your balance",
+                   "Message":"enter a amount within your bank balance"})
+                  
+    
+class TransferAmounts():
+    def __init__(self,sender,receiver,amount):
+        self.sender=sender
+        self.receiver=receiver
+        self.amount=amount
+
+    def transfer(self):
+     acc1=account_find_by_last4(self.sender)
+     acc2=account_find_by_last4(self.receiver)
+
+
+     if(not acc1["success"] and not acc2["success"]):
+         
+
+         if(acc1["Error"]=="Not_Found" and acc2["Error"]=="Not_Found" ):
+            return({"success":False, "Error":"the sender & receiver is not in our records"})
+         
+         if(acc1["Error"]=="Left_Empty" and acc2["Error"]=="Left_Empty"):
+                   
+            return({"success":False, "Error":"you cant leave account number's as empty"})         
+         
+         if(acc1["Error"]=="AMBIGUOUS" and acc2["Error"]=="AMBIGUOUS"):
+             return({"success":False, "Error":"multiple bank accounts same as the senders account number and receivers account number exists"})
+         
+     if(not acc1["success"]):
+         
+         if(acc1["Error"]=="Not_Found"):
+             return({"success":False, "Error":"the sender is not in our records"})
+        
+         if(acc1["Error"]=="Left_Empty"):
+             return({"success":False, "Error":"you cant leave account number as empty"})
+    
+         if(acc1["Error"]=="AMBIGUOUS"):
+             return({"success":False, "Error":"multiple bank accounts same as the senders account number exists"})
+                     
+     if(not acc2["success"]):
+
+         if(acc2["Error"]=="Not_Found"):
+             return({"success":False, "Error":"the receiver is not in our records"})
+        
+         if(acc2["Error"]=="Left_Empty"):
+             return({"success":False, "Error":"you cant leave account number as empty"})
+    
+         if(acc2["Error"]=="AMBIGUOUS"):
+             return({"success":False, "Error":"multiple bank accounts same as the receivers account number exists"})                  
+
+        
+        
+         if(self.amount<=0):
+            return ({"success": False, "Error": "Invalid amount cant process transfer"})
+         
+     if(acc1["success"] and acc2["success"]):
+       account1=acc1["account"]
+       account2=acc2["account"]
+
+       if(account1==account2):
+            return ({"success":False, "Error":"the sender and receiver are same accounts cant process transactions"})
+
+       if(customers[account1]["balance"]<self.amount):
+            return({"success":False, "Error":"the entered amount is higher than senders bank balance",
+                               "Message":"enter a amount within the bank balance"})
+       else:
+        
+            try:
+                 customers[account1]["balance"]-=self.amount
+                 customers[account2]["balance"]+=self.amount
+
+            except Exception as e:
+                    customers[account1]["balance"]=customers[account1]["balance"]
+                    customers[account2]["balance"]=customers[account2]["balance"]
+                    return({"Success":False,"Error":e})
+
+
+            transactions[account1].append({"Action":"Transfer Out", "Reciever":self.receiver, "Amount": self.amount, "Before": customers[account1]["balance"]+self.amount, 
+                                                "After": customers[account1]["balance"], "time" :datetime.now().strftime("%Y-%m-%d %H:%M:%S")})
+            
+            transactions[account2].append({"Action":"Transfer In", "sender":self.sender, "Amount": self.amount, "Before": customers[account2]["balance"]-self.amount, 
+                                                "After": customers[account2]["balance"], "time" :datetime.now().strftime("%Y-%m-%d %H:%M:%S")})
+                    
+            return({"success":True, "Message":"Transaction is successful", "Sender accont number":self.sender, "Senders Updated Balance":customers[account1]["balance"]
+                                    ,"Receiver accont number":self.receiver, "Receivers Updated Balance":customers[account2]["balance"]})
+    
+
+    flask ::
+
+    from flask import Flask,jsonify,request
+from flask_sqlalchemy import SQLAlchemy
+from data import add_customers_and_details,A_customers_details,AllTransactionsOfASingleUser,CheckBalance,AllTransactions,AccountClose,Updatedetails
+from WithdrawDeposit import deposit_withdraw,TransferAmounts
+
+app=Flask(__name__)
+app.config["SQLALCHEMY_DATABASE_URI"]="sqlite:///bank.db"
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"]=False
+db=SQLAlchemy(app)
+
+
+@app.route("/")
+def home():
+    return jsonify({"success":True, "Message":"hello this is still starting"}),200
+
+@app.route("/addcustomer",methods=["POST"])
+def add_customers_details():
+    data=request.get_json()
+    name=data.get("name")
+    balance=data.get("balance")
+    account_type=data.get("account_type")
+    Valid_account=["savings","current"]
+    if( name=="" or name is None or balance is None or account_type is None):
+        return jsonify({"success":False, "Error":" you cant leave name, balance, account_type as empty"}),400
+    if (not isinstance(balance,int)):
+        return jsonify({"success":False,"Error":" balance value should only be in integer / number"}),400
+    if(account_type not in Valid_account):
+        return jsonify({"success":False,"Error":"The account type can only be <savings> or <current> "}),400
+    cust=add_customers_and_details(name,balance,account_type)
+    return jsonify(cust),200
+
+@app.route("/customerdetail/<accno_last4>")
+def customerdetail(accno_last4):
+    if(accno_last4 is None):
+        return jsonify({"success":False, "Error":" you cant leave account number as empty"}),400
+    cust=A_customers_details(accno_last4)
+    if(cust["success"]):
+        status=200
+    else:
+        status=404
+    return jsonify(cust),status
+
+@app.route("/balance/<accno_last4>")
+def balance(accno_last4):
+    if(accno_last4 is None):
+        return jsonify({"success":False, "Error":" you cant leave account number as empty"}),400
+    balance=CheckBalance(accno_last4)
+    if(balance["success"]):
+        status=200
+    else:
+        status=404
+    return jsonify(balance),status
+
+@app.route("/transactions")
+def all_transactions():
+    AllT=AllTransactions()
+    return jsonify(AllT),200
+
+@app.route("/SingleCustomerTransactions/<accno_last4>")
+def SingleCustTrans(accno_last4):
+    if(accno_last4 is None):
+        return jsonify({"success":False, "Error":" you cant leave account number as empty"}),400
+    STran=AllTransactionsOfASingleUser(accno_last4)
+    if(STran["success"]):
+        status=200
+    else:
+        status=404
+    return jsonify(STran),status
+
+
+@app.route("/deposit",methods=["POST"])
+def deposit():
+    data=request.get_json()
+    accno_last4=data.get("accno_last4")
+    deposit_amount=data.get("deposit_amount")
+    if (not accno_last4 or accno_last4 ==""or accno_last4 is None or deposit_amount is None):
+        return jsonify({"success":False, "Error":"you cant leave account number or / and deposit as empty"}),400
+    if (not isinstance(deposit_amount,int)):
+        return jsonify({"success":False, "Error":"deposit-amount value should only be an integer / number"}),400
+    if (deposit_amount<=0):
+        return jsonify({"success":False, "Error":"deposit-amount must be greater then zero"}),400
+    depo=deposit_withdraw(accno_last4,deposit_amount,0)
+    result=depo.deposit()
+    if (result["success"]):
+      status=200
+    else:
+      status=404
+    return jsonify(result),status
+
+
+@app.route("/withdraw",methods=["POST"])
+def withdraw():
+    data=request.get_json()
+    accno_last4=data.get("accno_last4")
+    withdraw_amount=data.get("withdraw_amount")
+    if ( not accno_last4 or accno_last4 is None or accno_last4 =="" or withdraw_amount is None):
+        return jsonify({"success":False, "Error":"you cant leave account number or/and deposit as empty"}),400
+    if (not isinstance(withdraw_amount,int)):
+        return jsonify({"success":False, "Error":"withdraw-amount value should only be an integer/number"}),400
+    if (withdraw_amount<=0):
+        return jsonify({"success":False, "Error":"withdraw-amount must be greater then zero"}),400
+    withd=deposit_withdraw(accno_last4,0,withdraw_amount)
+    result=withd.withdraw()
+    if (result["success"]):
+      status=200
+    else:
+      status=404
+    return jsonify(result),status
+    
+
+@app.route("/transfer",methods=["POST"])
+def transfer():
+    data=request.get_json()
+    sender=data.get("sender_accno_last4")
+    receiver=data.get("receiver_accno_last4")
+    amount=data.get("amount")
+    
+    if( not sender or sender =="" or sender is None or not receiver or receiver =="" or receiver is None or amount is None):
+        return jsonify({"success":False, "Error":"you cant leave account numbers of senders, receivers, or the  amount to be transferred as empty"}),400
+    if(not isinstance(amount,int)):
+        return jsonify({"success":False, "Error":"amount to be transferred value should only be an integer/number"}),400
+    if(amount<=0):
+        return jsonify({"success":False, "Error":"amount to be transferred must be greater then zero"}),400
+    trans=TransferAmounts(sender,receiver,amount)
+    result=trans.transfer()
+    if (result["success"]):
+      status=200
+    else:
+      status=404
+    return jsonify(result),status
+    
+
+   
+@app.route("/AccountClose/<accno_last4>",methods=["DELETE"])
+def accountclose(accno_last4):
+    if(accno_last4 is None):
+        return jsonify({"success":False, "Error":" you cant leave account number as empty"}),400
+    close=AccountClose(accno_last4)
+    if (close["success"]):
+        status=200
+    else:
+        status=404
+    return jsonify(close),status
+    
+@app.route("/Changedetails/<accno_last4>",methods=["PUT"])
+def changedetails(accno_last4):
+    data=request.get_json()
+    name=data.get("new_name")
+    if (name is None):
+        return jsonify({"success":False, "Error":"you cant leave new name as empty"}),400
+    result=Updatedetails(accno_last4,name)
+    if (result["success"]):
+      status=200
+    else:
+      status=404
+    return jsonify(result),status
+
+
+
+if (__name__ == "__main__"):
+    with app.app_context():
+        db.create_all()
+    app.run(debug=True)
