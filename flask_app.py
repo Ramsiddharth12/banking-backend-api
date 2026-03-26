@@ -1,3 +1,4 @@
+import os
 from dbapp import db
 from flask import Flask,jsonify,request
 from auth import registering,logingin
@@ -9,7 +10,10 @@ from readdata import ACustomer,AllCustomers,AllTransactionsOfASingleCustomer,Che
 
 
 app=Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"]="sqlite:///bank.db"
+
+DATABASE_URL=os.environ.get("DATABASE_URL")
+
+app.config["SQLALCHEMY_DATABASE_URI"]="DATABASE_URL"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"]=False
 app.config["JWT_SECRET_KEY"]=("JWT_SECRET_KEY_THIS_IS_MY_SECRET_KEY_FOR_MY_BANK_PROJECT_BANKING_BACKEND_API")
 db.init_app(app)
