@@ -31,7 +31,6 @@ class deposit_withdraw():
     try:
         oldbalance=account.balance
         
-        db.session.begin()
         account.balance+=self.deposit_amount
         dep=Transaction(action="Deposit",amount=self.deposit_amount, balance_before=oldbalance,balance_after= account.balance,account_id=account.id)
         db.session.add(dep)
@@ -42,7 +41,7 @@ class deposit_withdraw():
     
     except Exception as e:
         db.session.rollback()
-        return ({"success":False,"Error":e})
+        return ({"success":False,"Error":str(e)})
  
          
    def withdraw(self):
@@ -69,7 +68,6 @@ class deposit_withdraw():
     try:
         oldbalance=account.balance
         
-        db.session.begin()
         account.balance-=self.withdraw_amount
         With=Transaction(action="Withdraw",amount= self.withdraw_amount, balance_before=oldbalance,balance_after=account.balance,account_id=account.id)
         db.session.add(With)
@@ -80,7 +78,7 @@ class deposit_withdraw():
           
     except Exception as e:
         db.session.rollback()
-        return ({"success":False,"Error":e})
+        return ({"success":False,"Error":str(e)})
                   
     
 class TransferAmounts():
@@ -126,7 +124,6 @@ class TransferAmounts():
         acc1oldbalance=account1.balance
         acc2oldbalance=account2.balance
 
-        db.session.begin()
         account1.balance-=self.amount
         account2.balance+=self.amount
         transfer1=Transaction(action="Transfer Out",amount= self.amount, balance_before=acc1oldbalance,balance_after=account1.balance,account_id=account1.id)
@@ -140,4 +137,4 @@ class TransferAmounts():
     
      except Exception as e:
         db.session.rollback()
-        return({"success":False,"Error":e})
+        return({"success":False,"Error":str(e)})

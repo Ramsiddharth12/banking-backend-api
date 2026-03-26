@@ -53,7 +53,7 @@ def AddCustomer(name,age,phone,balance,account_type):
     
     except Exception as e:
         db.session.rollback()
-        return({"success":False, "Error":e})
+        return({"success":False, "Error":str(e)})
     
 
 

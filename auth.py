@@ -23,6 +23,15 @@ def registering(email,password,role):
     if(not check):
         return ({"success":False, "Error":" please enter a valid email address "})
     
+    def PassWord(password):
+        pattern=r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!*%&?])[A-Za-z\d@$!%*?&]{8,}$"
+        return (bool(re.match(pattern,password)))
+    
+    check=PassWord(password)
+
+    if(not check):
+        return ({"success":False, "Error":" the password is weak it should be more than 8 characters and contain a-z, A-Z, 0-9,  .+_%-#, characters"})
+    
     new_user=User(email=email,role=role)
 
     new_user.set_password(password)
