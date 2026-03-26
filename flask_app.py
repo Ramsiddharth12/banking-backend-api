@@ -15,6 +15,9 @@ app.config["JWT_SECRET_KEY"]=("JWT_SECRET_KEY_THIS_IS_MY_SECRET_KEY_FOR_MY_BANK_
 db.init_app(app)
 jwt=JWTManager(app)
 
+with app.app_context():
+    db.create_all()
+
 
 @app.route("/")
 def home():
@@ -296,6 +299,4 @@ def Transfer():
 
 
 if (__name__ == "__main__"):
-    with app.app_context():
-        db.create_all()
     app.run()
