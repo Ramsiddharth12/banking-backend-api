@@ -156,7 +156,7 @@ def ChangeName(accno_last4):
 
 
 
-@app.route("/customerdetail")
+@app.route("/your/accounts&details")
 @jwt_required()
 def ACustomerDetails():
     claims=get_jwt()
@@ -170,7 +170,7 @@ def ACustomerDetails():
     return (jsonify(cust), 200) if cust["success"] else (jsonify(cust), 404) 
 
 
-@app.route("/allcustomersdetails")
+@app.route("/all/customersdetails")
 @jwt_required()
 def AllCustomer():
     claims=get_jwt()
@@ -200,7 +200,7 @@ def Balance():
     return (jsonify(balance), 200) if balance["success"] else (jsonify(balance), 403)
     
 
-@app.route("/transactions")
+@app.route("/all/transactions")
 @jwt_required()
 def ALLTransactions():
     claims=get_jwt()
@@ -214,7 +214,7 @@ def ALLTransactions():
     return (jsonify(AllT), 200) if AllT["success"] else (jsonify(AllT), 404)
 
 
-@app.route("/SingleCustomerTransactions")
+@app.route("/your/transactions")
 @jwt_required()
 def SingleCustTrans():
     claims=get_jwt()

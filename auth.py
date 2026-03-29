@@ -38,7 +38,7 @@ def registering(email,password,role):
     
     db.session.add(new_user)
     db.session.commit()
-    return ({"success":True, "Message":" {role} successfully registered "})
+    return ({"success":True, "Message":f" {role} successfully registered "})
 
 
 
