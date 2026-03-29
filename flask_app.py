@@ -29,14 +29,14 @@ def home():
 
 
 @app.route("/admin/register",methods=["POST"])
-#@jwt_required()
+@jwt_required()
 def AdminRegistration():
 
     data=request.get_json()
-    #claims=get_jwt()
-    #Role=claims.get("role")
-    #if (Role!="admin"):
-        #return jsonify({"success":False, "Error":"Access denied"}),403
+    claims=get_jwt()
+    Role=claims.get("role")
+    if (Role!="admin"):
+        return jsonify({"success":False, "Error":"Access denied"}),403
 
     regi=registering(data.get("email"), data.get("password"), role="admin") 
     
