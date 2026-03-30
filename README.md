@@ -1,5 +1,12 @@
 # Banking Backend API
 
+![Python](https://img.shields.io/badge/Python-3.10-blue)
+![Flask](https://img.shields.io/badge/Flask-Backend-black)
+![PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL-blue)
+![Status](https://img.shields.io/badge/Status-Deployed-success)
+
+**Live API:** https://banking-backend-gi87.onrender.com
+
 A production-ready backend system simulating real-world banking operations, built using Flask and PostgreSQL, with secure authentication and transaction management.
 
 ---
@@ -15,6 +22,28 @@ This project implements a complete banking backend system that allows users to:
 - Export transaction data as CSV
 
 The system is deployed on cloud (Render) with a PostgreSQL database.
+
+---
+
+##  Architecture Diagram
+
++---------------------+
+|  Client (Postman)   |
++----------+----------+
+           |
+           ▼
++---------------------+
+|   Flask Backend     |
+|   (Render Cloud)    |
++----------+----------+
+           |
+           ▼
++---------------------+
+| PostgreSQL Database |
+|     (Render)        |
++---------------------+
+
+
 
 ---
 
