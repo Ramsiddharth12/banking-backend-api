@@ -1,94 +1,145 @@
-\# **Banking Backend API**
+# Banking Backend API
 
+A production-ready backend system simulating real-world banking operations, built using Flask and PostgreSQL, with secure authentication and transaction management.
 
+---
 
-**A Flask-based backend system simulating real-world banking operations.**
+## Project Overview
 
+This project implements a complete banking backend system that allows users to:
 
+- Register and login securely using JWT authentication
+- Create and manage bank accounts
+- Perform transactions like deposit, withdrawal, and transfer
+- Track transaction history
+- Export transaction data as CSV
 
-\## **Features**
+The system is deployed on cloud (Render) with a PostgreSQL database.
 
-\- JWT Authentication (Login/Register)
+---
 
-\- Role-based access (Admin / Customer)
+## Objectives
 
-\- Account creation \& management
+- Build a scalable backend system with real-world banking logic
+- Implement secure authentication and authorization
+- Ensure data consistency in financial transactions
+- Deploy and manage a cloud-based database
 
-\- Deposit / Withdraw / Transfer
+---
 
-\- Transaction history tracking
+##  Tech Stack
 
-\- CSV export (Admin \& Customer)
+- **Backend:** Flask (Python)
+- **Database:** PostgreSQL (Previously SQLite)
+- **ORM:** SQLAlchemy
+- **Authentication:** JWT (JSON Web Tokens)
+- **Deployment:** Render
+- **Testing Tools:** Postman, DBeaver
 
+---
 
+##  Authentication & Authorization
 
-\## **Tech Stack**
+- JWT-based login system
+- Role-based access:
+  - **Admin** → Manage users, export data
+  - **Customer** → Perform banking operations
 
-\- Python
+---
 
-\- Flask
+##  Features
 
-\- SQLAlchemy
+###  User Management
+- Register & Login
+- Create profile
+- Role-based access (Admin / Customer)
 
-\- SQLite (can be upgraded to PostgreSQL)
+###  Account Management
+- Create bank account
+- View account details
+- Close account
 
-\- JWT Authentication
+###  Transactions
+- Deposit money
+- Withdraw money
+- Transfer funds between accounts
 
+###  Data & Tracking
+- Transaction history per user
+- Balance checking
+- CSV export for transactions
 
+---
 
-\## **API Endpoints**
+##  API Endpoints
 
-\- /register
+### Authentication
+- `POST /register`
+- `POST /login`
 
-\- /login
+### Account & Profile
+- `POST /createprofile`
+- `POST /createaccount`
+- `PUT /Changedetails/<accno_last4>`
+- `DELETE /AccountClose/<accno_last4>`
 
-\- /createaccount
+### Transactions
+- `POST /deposit`
+- `POST /withdraw`
+- `POST /transfer`
 
-\- /createprofile
+### Data Retrieval
+- `GET /customerdetail`
+- `GET /balance`
+- `GET /SingleCustomerTransactions`
 
-\- /addcustomer
+### Admin
+- `GET /allcustomersdetails`
+- `GET /admin/export/<value>`
 
-\- /AccountClose/<accno\_last4>
+### Export
+- `GET /transaction/export/<accno_last4>`
 
-\- /Changedetails/<accno\_last4>
+---
 
-\- /customerdetail
+##  Key Concepts Implemented
 
-\- /allcustomersdetails
+- REST API design principles
+- JWT authentication & token handling
+- Role-based authorization
+- Database relationships (Users, Accounts, Transactions)
+- Transaction consistency handling
+- Cloud deployment (Render + PostgreSQL)
 
-\- /balance
+---
 
-\- /SingleCustomerTransactions
+##  Deployment
 
-\- /transaction/export/<accno\_last4>
+- Backend deployed on Render
+- PostgreSQL database hosted on Render
+- External DB access via DBeaver
 
-\- /admin/export/<value>
+---
 
-\- /deposit
+##  Challenges Faced
 
-\- /withdraw
+- Handling database migration (SQLite → PostgreSQL)
+- Managing JWT authentication across endpoints
+- Ensuring transaction consistency
+- Debugging cloud deployment issues
 
-\- /transfer
+---
 
-\- /transactions
+##  Future Improvements
 
+- Add rate limiting (security)
+- Implement logging & monitoring
+- Add Swagger API documentation
+- Improve error handling
+- Add Docker support
 
+---
 
+##  Author/Developer
 
-
-\##  **Future Improvements**
-
-\- Deploy on cloud (Render / AWS)
-
-\- Switch to PostgreSQL
-
-\- Add rate limiting
-
-\- Add logging
-
-
-
-\## **Author**
-
-Ram Siddharth J
-
+**Ram Siddharth J**
