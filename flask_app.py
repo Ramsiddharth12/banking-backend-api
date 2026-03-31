@@ -11,7 +11,7 @@ from readdata import ACustomer,AllCustomers,AllTransactionsOfASingleCustomer,Che
 
 app=Flask(__name__)
 
-DATABASE_URL=os.environ.get("DATABASE_URL")
+DATABASE_URL=os.environ.get("DATABASE_URL") or "sqlite:///bank.db"
 
 app.config["SQLALCHEMY_DATABASE_URI"]=DATABASE_URL
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"]=False
@@ -318,4 +318,4 @@ def Transfer():
 
 
 if (__name__ == "__main__"):
-    app.run()
+    app.run(host="0.0.0.0", port=5000)
