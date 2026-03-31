@@ -24,6 +24,11 @@ def AddCustomer(name,age,phone,balance,account_type):
     if(not check):
         return ({"success":False, "Error":" please check and enter the correct phone number "})
     
+    PhoneNumber=Customer.query.filter_by(phone=phone).first()
+
+    if (PhoneNumber):
+        return ({"success":False, "Error":" Phone is already used by another customer "})
+    
     if (not isinstance(balance,(int,float))):
         return ({"success":False,"Error":" balance value should only be in integer / number"})
     
@@ -74,6 +79,11 @@ def CreateAccount(name,phone,age,user_id):
 
     if(not check):
         return ({"success":False, "Error":" please check and enter the correct phone number "})
+    
+    PhoneNumber=Customer.query.filter_by(phone=phone).first()
+
+    if (PhoneNumber):
+        return ({"success":False, "Error":" Phone is already used by another customer "})
 
     if(not isinstance(age,int)):
         return {"success":False,"Error":" please enter your correct age "}

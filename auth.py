@@ -30,7 +30,7 @@ def registering(email,password,role):
     check=PassWord(password)
 
     if(not check):
-        return ({"success":False, "Error":" the password is weak it should be more than 8 characters and contain a-z, A-Z, 0-9,  .+_%-#, characters"})
+        return ({"success":False, "Error":" Your password is too weak. It must be at least 8 characters long and include a mix of lowercase (a-z), uppercase (A-Z), numbers (0-9), and special symbols ( . + _ % - # )."})
     
     new_user=User(email=email,role=role)
 
