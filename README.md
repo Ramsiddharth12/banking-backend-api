@@ -27,22 +27,13 @@ The system is deployed on cloud (Render) with a PostgreSQL database.
 
 ##  Architecture Diagram
 
-+---------------------+
-|  Client (Postman)   |
-+----------+----------+
-           |
-           ▼
-+---------------------+
-|   Flask Backend     |
-|   (Render Cloud)    |
-+----------+----------+
-           |
-           ▼
-+---------------------+
-| PostgreSQL Database |
-|     (Render)        |
-+---------------------+
-
+Client (Postman / Frontend)
+        │
+        ▼
+Flask Backend (Render Cloud)
+        │
+        ▼
+PostgreSQL Database (Render)
 
 
 ---
@@ -150,7 +141,23 @@ The system is deployed on cloud (Render) with a PostgreSQL database.
 
 ---
 
+##  Screenshots
+
+###  API Testing (Postman)
+![Postman](assets/postman-tests.png)
+
+###  Database View (DBeaver)
+![Database](assets/db-tables.png)
+
+###  Deployment (Render)
+![Render](assets/render-deploy.png)
+
+---
+
+
 ##  Challenges Faced
+
+
 
 - Handling database migration (SQLite → PostgreSQL)
 - Managing JWT authentication across endpoints
