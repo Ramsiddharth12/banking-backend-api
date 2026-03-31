@@ -143,13 +143,13 @@ PostgreSQL Database (Render)
 
 ##  Screenshots
 
-###  API Testing (Postman)
+###  - API Testing (Postman)
 ![Postman](assets/postman-tests.png)
 
-###  Database View (DBeaver)
+###  - Database View (DBeaver)
 ![Database](assets/db-tables.png)
 
-###  Deployment (Render)
+###  - Deployment (Render)
 ![Render](assets/render-deploy.png)
 
 ---
