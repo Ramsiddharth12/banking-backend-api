@@ -109,13 +109,16 @@ PostgreSQL Database (Render)
 - `POST /transfer`
 
 ### Data Retrieval
-- `GET /customerdetail`
+- `GET /your/accounts&details`
 - `GET /balance`
-- `GET /SingleCustomerTransactions`
+- `GET /your/transactions`
 
 ### Admin
-- `GET /allcustomersdetails`
+- `GET /all/customersdetails`
+- `GET /all/transactions`
 - `GET /admin/export/<value>`
+- `POST /addcustomer`
+- `POST /admin/register`
 
 ### Export
 - `GET /transaction/export/<accno_last4>`
@@ -156,8 +159,6 @@ PostgreSQL Database (Render)
 
 
 ##  Challenges Faced
-
-
 
 - Handling database migration (SQLite → PostgreSQL)
 - Managing JWT authentication across endpoints
