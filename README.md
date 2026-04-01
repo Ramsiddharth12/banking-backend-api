@@ -23,31 +23,6 @@ This project implements a complete banking backend system that allows users to:
 
 The system is deployed on cloud (Render) with a PostgreSQL database.
 
-## Docker & AWS Deployment
-
-The application was containerized using Docker and deployed on an AWS EC2 instance.
-
-### Docker
-
-- Created a Dockerfile to containerize the Flask application  
-- Built Docker image locally  
-- Pushed image to Docker Hub  
-
-Docker Hub Image:  
-https://hub.docker.com/r/ramsiddharth/banking-api
-
-### AWS Deployment
-
-- Launched EC2 instance (Ubuntu)  
-- Installed Docker on EC2  
-- Pulled Docker image from Docker Hub  
-- Ran container and exposed port 5000  
-- Accessed application via EC2 public IP  
-
-Example:
-
-docker pull ramsiddharth/banking-api:latest  
-docker run -d -p 5000:5000 ramsiddharth/banking-api
 
 ---
 
@@ -166,6 +141,33 @@ Client → Flask API (Docker Container) → PostgreSQL
 - PostgreSQL database hosted on Render
 - External DB access via DBeaver
 
+
+## Docker & AWS Deployment
+
+The application was containerized using Docker and deployed on an AWS EC2 instance.
+
+### Docker
+
+- Created a Dockerfile to containerize the Flask application  
+- Built Docker image locally  
+- Pushed image to Docker Hub  
+
+Docker Hub Image:  
+https://hub.docker.com/r/ramsiddharth/banking-api
+
+### AWS Deployment
+
+- Launched EC2 instance (Ubuntu)  
+- Installed Docker on EC2  
+- Pulled Docker image from Docker Hub  
+- Ran container and exposed port 5000  
+- Accessed application via EC2 public IP  
+
+Example:
+
+docker pull ramsiddharth/banking-api:latest  
+docker run -d -p 5000:5000 ramsiddharth/banking-api
+
 ---
 
 ##  Screenshots
@@ -178,6 +180,10 @@ Client → Flask API (Docker Container) → PostgreSQL
 
 ###  - Deployment (Render)
 ![Render](assets/render-deploy.png)
+
+### - AWS (Deployment)
+![Render](assets/AWS-EC2-deploy.png)
+
 
 ---
 
