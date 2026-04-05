@@ -35,7 +35,10 @@ jobs:
           docker pull ramsiddharth/banking-api:latest
           docker stop banking-container || true
           docker rm banking-container || true
-          docker run -d -p 5000:5000 --name banking-container ramsiddharth/banking-api:latest
+          docker run -d -p 5000:5000 \
+           -e DATABASE_URL="${{ secrets.DATABASE_URL }}" \
+           --name banking-container \
+           ramsiddharth/banking-api:latest
 
 
 
