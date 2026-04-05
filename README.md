@@ -3,7 +3,9 @@
 ![Python](https://img.shields.io/badge/Python-3.10-blue)
 ![Flask](https://img.shields.io/badge/Flask-Backend-black)
 ![PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL-blue)
+![CI/CD](https://img.shields.io/badge/CI-CD-GitHub%20Actions-blue)
 ![Status](https://img.shields.io/badge/Status-Deployed-success)
+
 
 **Live API:** https://banking-backend-gi87.onrender.com
 
@@ -28,11 +30,15 @@ The system is deployed on cloud (Render) with a PostgreSQL database.
 
 ##  Architecture Diagram
 
-Client → Flask API (Docker Container) → PostgreSQL  
-                ↓  
-           AWS EC2  
-                ↓  
-           Docker Hub
+Client (Postman / Frontend)
+        ↓
+AWS EC2 (Docker Container running Flask API)
+        ↓
+PostgreSQL (External Database)
+        ↑
+Docker Hub (Image Source)
+        ↑
+GitHub Actions (CI/CD Pipeline)
 
 
 ---
@@ -155,6 +161,23 @@ The application was containerized using Docker and deployed on an AWS EC2 instan
 Docker Hub Image:  
 https://hub.docker.com/r/ramsiddharth/banking-api
 
+
+##  CI/CD Pipeline (GitHub Actions)
+
+Implemented a CI/CD pipeline using GitHub Actions to automate deployment.
+
+### Pipeline Workflow:
+
+- Triggered on push to `main` branch
+- Builds Docker image
+- Pushes image to Docker Hub
+- Connects to AWS EC2 via SSH
+- Pulls latest image
+- Restarts container automatically
+
+This ensures the application is always up-to-date with the latest code changes.
+
+
 ### AWS Deployment
 
 - Launched EC2 instance (Ubuntu)  
@@ -199,11 +222,9 @@ docker run -d -p 5000:5000 ramsiddharth/banking-api
 
 ##  Future Improvements
 
-- Add rate limiting (security)
-- Implement logging & monitoring
-- Add Swagger API documentation
-- Improve error handling
-- Implement CI/CD pipeline for automated deployment
+- Add Nginx reverse proxy and HTTPS (production security)
+- Implement logging & monitoring (CloudWatch / ELK)
+- Add rate limiting and API security enhancements
 ---
 
 ##  Author/Developer
