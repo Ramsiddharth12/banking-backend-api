@@ -3,7 +3,7 @@
 ![Python](https://img.shields.io/badge/Python-3.10-blue)
 ![Flask](https://img.shields.io/badge/Flask-Backend-black)
 ![PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL-blue)
-![CI/CD](https://img.shields.io/badge/CI-CD-GitHub%20Actions-blue)
+[![CI/CD Pipeline](https://github.com/Ramsiddharth12/banking-backend-api/actions/workflows/docker-ci.yml/badge.svg)](https://github.com/Ramsiddharth12/banking-backend-api/actions/workflows/docker-ci.yml)
 ![Status](https://img.shields.io/badge/Status-Deployed-success)
 
 
@@ -190,6 +190,13 @@ Example:
 
 docker pull ramsiddharth/banking-api:latest  
 docker run -d -p 5000:5000 ramsiddharth/banking-api
+
+---
+
+###  Note on Deployment
+
+The AWS EC2 instance is stopped when not in use to optimize costs.  
+CI/CD auto-deployment works when the instance is running.
 
 ---
 
