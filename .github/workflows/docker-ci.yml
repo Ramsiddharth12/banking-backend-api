@@ -38,7 +38,4 @@ jobs:
           docker run -d -p 5000:5000 \
            -e DATABASE_URL="${{ secrets.DATABASE_URL }}" \
            --name banking-container \
-           ramsiddharth/banking-api:latest
-
-
-
+           ramsiddharth/banking-api:latest 
