@@ -3,7 +3,6 @@
 ![Python](https://img.shields.io/badge/Python-3.10-blue)
 ![Flask](https://img.shields.io/badge/Flask-Backend-black)
 ![PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL-blue)
-[![CI/CD Pipeline](https://github.com/Ramsiddharth12/banking-backend-api/actions/workflows/docker-ci.yml/badge.svg)](https://github.com/Ramsiddharth12/banking-backend-api/actions/workflows/docker-ci.yml)
 ![Status](https://img.shields.io/badge/Status-Deployed-success)
 
 
