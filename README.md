@@ -39,19 +39,24 @@ This project demonstrates **end-to-end backend + DevOps workflow**, including co
 
 ##  Architecture
 
-
-    Client (Postman / Frontend)
-                 ↓
-        Flask API (Docker)
-         /             \
- Render Deployment     AWS EC2
-   (Always ON)        (On-Demand)
-         ↓                 ↓
-    PostgreSQL (Cloud Database)
-                 ↑
-           Docker Hub
-                 ↑
-         GitHub Actions (CI/CD)
+```text
+Client (Postman / Frontend)
+          |
+          v
+   Flask API (Docker)
+      /           \
+     v             v
+Render (Always ON)   AWS EC2 (On-Demand)
+     \             /
+      v           v
+      PostgreSQL (Cloud DB)
+              ^
+              |
+        Docker Hub
+              ^
+              |
+      GitHub Actions (CI/CD)
+```
 
 
 ---
