@@ -25,7 +25,14 @@ jobs:
      - name: Push Docker Image
        run: docker push ramsiddharth/banking-api:latest
 
+
+     - name: Check EC2 availability
+       id: check_ec2
+       run: |
+         nc -zv ${{ secrets.EC2_HOST }} 22 && echo "alive=true" >> $GITHUB_OUTPUT || echo "alive=false" >> $GITHUB_OUTPUT
+
      - name: Deploy to EC2
+       if: steps.check_ec2.outputs.alive == 'true'
        uses: appleboy/ssh-action@v0.1.10
        with:
         host: ${{ secrets.EC2_HOST }}
