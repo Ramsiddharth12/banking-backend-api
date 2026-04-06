@@ -3,71 +3,114 @@
 ![Python](https://img.shields.io/badge/Python-3.10-blue)
 ![Flask](https://img.shields.io/badge/Flask-Backend-black)
 ![PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL-blue)
-![Status](https://img.shields.io/badge/Status-Deployed-success)
-
-
-**Live API:** https://banking-backend-gi87.onrender.com
-
-A production-ready backend system simulating real-world banking operations, built using Flask and PostgreSQL, with secure authentication and transaction management.
+[![CI/CD Pipeline](https://github.com/Ramsiddharth12/banking-backend-api/actions/workflows/docker-ci.yml/badge.svg)](https://github.com/Ramsiddharth12/banking-backend-api/actions/workflows/docker-ci.yml)
+![Status](https://img.shields.io/badge/Status-Production--Ready-success)
 
 ---
 
-## Project Overview
+##  Live API
+👉 https://banking-backend-gi87.onrender.com
 
-This project implements a complete banking backend system that allows users to:
+---
 
-- Register and login securely using JWT authentication
-- Create and manage bank accounts
-- Perform transactions like deposit, withdrawal, and transfer
-- Track transaction history
-- Export transaction data as CSV
+## Overview
 
-The system is deployed on cloud (Render) with a PostgreSQL database.
+A **production-style backend system** simulating real-world banking operations, built using Flask and PostgreSQL with secure authentication, transaction management, and a fully automated CI/CD pipeline.
+
+This project demonstrates **end-to-end backend + DevOps workflow**, including containerization, cloud deployment, and conditional infrastructure handling.
+
+---
+
+##  What Makes This Project Strong
+
+-  Secure JWT-based authentication system
+-  Real-world banking logic (accounts, transactions, transfers)
+-  Fully containerized using Docker
+-  Automated CI/CD pipeline using GitHub Actions
+-  Multi-environment deployment:
+  - **Render (Primary - Always ON)**
+  - **AWS EC2 (Secondary - On-demand deployment)**
+-  Smart CI/CD design:
+  - Handles **EC2 downtime gracefully**
+  - Skips deployment if server is unavailable
+-  Database migration: SQLite → PostgreSQL
+
+---
+
+##  Architecture
+
+
+    Client (Postman / Frontend)
+                 ↓
+        Flask API (Docker)
+         /             \
+ Render Deployment     AWS EC2
+   (Always ON)        (On-Demand)
+         ↓                 ↓
+    PostgreSQL (Cloud Database)
+                 ↑
+           Docker Hub
+                 ↑
+         GitHub Actions (CI/CD)
 
 
 ---
 
-##  Architecture Diagram
+##  CI/CD Pipeline (GitHub Actions)
 
-Client (Postman / Frontend)
-        ↓
-AWS EC2 (Docker Container running Flask API)
-        ↓
-PostgreSQL (External Database)
-        ↑
-Docker Hub (Image Source)
-        ↑
-GitHub Actions (CI/CD Pipeline)
+### Workflow:
 
+- Triggered on push to `main`
+- Builds Docker image using Dockerfile
+- Pushes image to Docker Hub
+- Checks EC2 availability (port 22)
+- Deploys ONLY if EC2 is running
+
+### Key Feature:
+
+>  **Conditional Deployment Logic**
+>
+> Prevents pipeline failure when EC2 is stopped by skipping the deploy step.
+>
+> This ensures:
+> - Stable CI/CD pipeline
+> - Cost-optimized infrastructure usage
+> - Real-world DevOps resilience
 
 ---
 
-## Objectives
+##  Dockerization
 
-- Build a scalable backend system with real-world banking logic
-- Implement secure authentication and authorization
-- Ensure data consistency in financial transactions
-- Deploy and manage a cloud-based database
+- Created a custom Dockerfile
+- Built container image for Flask API
+- Exposed port `5000`
+- Used environment variables for DB configuration
+- Pushed image to Docker Hub
+
+ Docker Image:  
+https://hub.docker.com/r/ramsiddharth/banking-api
 
 ---
 
-##  Tech Stack
+##  Deployment Strategy
 
-- **Backend:** Flask (Python)
-- **Database:** PostgreSQL (Previously SQLite)
-- **ORM:** SQLAlchemy
-- **Authentication:** JWT (JSON Web Tokens)
-- **Deployment:** Render
-- **Testing Tools:** Postman, DBeaver
+###  Render (Primary)
+- Always live API
+- Used for demos and production-like access
+
+###  AWS EC2 (Secondary)
+- Docker-based deployment
+- Instance started only when needed (cost optimization)
+- CI/CD deploys automatically when available
 
 ---
 
 ##  Authentication & Authorization
 
-- JWT-based login system
-- Role-based access:
-  - **Admin** → Manage users, export data
-  - **Customer** → Perform banking operations
+- JWT-based authentication
+- Role-based access control:
+  - **Admin** → manage users, export data
+  - **Customer** → perform banking operations
 
 ---
 
@@ -75,23 +118,23 @@ GitHub Actions (CI/CD Pipeline)
 
 ###  User Management
 - Register & Login
-- Create profile
-- Role-based access (Admin / Customer)
+- Profile creation
+- Role-based access
 
 ###  Account Management
-- Create bank account
-- View account details
+- Create account
+- View details
 - Close account
 
 ###  Transactions
-- Deposit money
-- Withdraw money
-- Transfer funds between accounts
+- Deposit
+- Withdraw
+- Transfer funds
 
 ###  Data & Tracking
-- Transaction history per user
+- Transaction history
 - Balance checking
-- CSV export for transactions
+- CSV export
 
 ---
 
@@ -124,113 +167,72 @@ GitHub Actions (CI/CD Pipeline)
 - `POST /addcustomer`
 - `POST /admin/register`
 
-### Export
-- `GET /transaction/export/<accno_last4>`
-
 ---
 
-##  Key Concepts Implemented
+##  Key Concepts Demonstrated
 
-- REST API design principles
-- JWT authentication & token handling
-- Role-based authorization
-- Database relationships (Users, Accounts, Transactions)
+- REST API design
+- JWT authentication & authorization
+- Role-based access control (RBAC)
+- Database relationships & ORM (SQLAlchemy)
 - Transaction consistency handling
-- Cloud deployment (Render + PostgreSQL)
+- Docker containerization
+- CI/CD pipeline design
+- Conditional deployment logic
+- Cloud deployment strategies
 
 ---
 
-##  Deployment
+##  Cost Optimization Strategy
 
-- Backend deployed on Render
-- PostgreSQL database hosted on Render
-- External DB access via DBeaver
-
-
-## Docker & AWS Deployment
-
-The application was containerized using Docker and deployed on an AWS EC2 instance.
-
-### Docker
-
-- Created a Dockerfile to containerize the Flask application  
-- Built Docker image locally  
-- Pushed image to Docker Hub  
-
-Docker Hub Image:  
-https://hub.docker.com/r/ramsiddharth/banking-api
-
-
-##  CI/CD Pipeline (GitHub Actions)
-
-Implemented a CI/CD pipeline using GitHub Actions to automate deployment.
-
-### Pipeline Workflow:
-
-- Triggered on push to `main` branch
-- Builds Docker image
-- Pushes image to Docker Hub
-- Connects to AWS EC2 via SSH
-- Pulls latest image
-- Restarts container automatically
-
-This ensures the application is always up-to-date with the latest code changes.
-
-
-### AWS Deployment
-
-- Launched EC2 instance (Ubuntu)  
-- Installed Docker on EC2  
-- Pulled Docker image from Docker Hub  
-- Ran container and exposed port 5000  
-- Accessed application via EC2 public IP  
-
-Example:
-
-docker pull ramsiddharth/banking-api:latest  
-docker run -d -p 5000:5000 ramsiddharth/banking-api
+- EC2 instance is **stopped when not in use**
+- CI/CD pipeline intelligently skips deployment if EC2 is unavailable
+- Prevents unnecessary cloud costs while maintaining pipeline stability
 
 ---
 
-###  Note on Deployment
+##  Testing & Tools
 
-The AWS EC2 instance is stopped when not in use to optimize costs.  
-CI/CD auto-deployment works when the instance is running.
+- Postman (API testing)
+- DBeaver (database inspection)
 
 ---
 
 ##  Screenshots
 
-###  - API Testing (Postman)
+### API Testing
 ![Postman](assets/postman-tests.png)
 
-###  - Database View (DBeaver)
+### Database
 ![Database](assets/db-tables.png)
 
-###  - Deployment (Render)
+### Render Deployment
 ![Render](assets/render-deploy.png)
 
-### - AWS (Deployment)
-![Render](assets/AWS-EC2-deploy.png)
-
+### AWS EC2 Deployment
+![AWS](assets/AWS-EC2-deploy.png)
 
 ---
 
+##  Challenges Solved
 
-##  Challenges Faced
-
-- Handling database migration (SQLite → PostgreSQL)
-- Managing JWT authentication across endpoints
+- SQLite → PostgreSQL migration
+- Handling JWT across protected routes
 - Ensuring transaction consistency
-- Debugging cloud deployment issues
+- Debugging CI/CD + SSH failures
+- Handling dynamic EC2 public IP changes
+- Designing fault-tolerant deployment pipeline
 
 ---
 
 ##  Future Improvements
 
-- Add Nginx reverse proxy and HTTPS (production security)
-- Implement logging & monitoring (CloudWatch / ELK)
-- Add rate limiting and API security enhancements
+- Add Nginx reverse proxy + HTTPS
+- Implement logging & monitoring (CloudWatch)
+- Add rate limiting & API security
+- Introduce auto-scaling infrastructure
+- Add Swagger/OpenAPI documentation
+
 ---
 
 ##  Author/Developer
