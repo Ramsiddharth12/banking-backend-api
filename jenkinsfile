@@ -4,7 +4,7 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = "ramsiddharth/banking-api"
-        APP_SERVER = "13.48.148.73"
+        APP_SERVER  = "13.48.148.73"
     }
 
     stages {
@@ -12,31 +12,33 @@ pipeline {
         stage('Clone Code') {
             steps {
                 git branch: 'main',
-                credentialsId: 'github-creds',
-                url: 'https://github.com/Ramsiddharth12/banking-backend-api'
+                    credentialsId: 'github-creds',
+                    url: 'https://github.com/Ramsiddharth12/banking-backend-api'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t $DOCKER_IMAGE:latest .'
+                sh "docker build -t ${DOCKER_IMAGE}:latest ."
             }
         }
 
         stage('Push Docker Image') {
             steps {
 
-                withCredentials([usernamePassword(
-                    credentialsId: 'docker-cred',
-                    usernameVariable: 'DOCKER_USER',
-                    passwordVariable: 'DOCKER_PASS'
-                )]) {
+                withCredentials([
+                    usernamePassword(
+                        credentialsId: 'docker-cred',
+                        usernameVariable: 'DOCKER_USER',
+                        passwordVariable: 'DOCKER_PASS'
+                    )
+                ]) {
 
-                    sh '''
-                    echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+                    sh """
+                        echo \$DOCKER_PASS | docker login -u \$DOCKER_USER --password-stdin
 
-                    docker push $DOCKER_IMAGE:latest
-                    '''
+                        docker push ${DOCKER_IMAGE}:latest
+                    """
                 }
             }
         }
@@ -45,20 +47,20 @@ pipeline {
             steps {
 
                 sh """
-                ssh -o StrictHostKeyChecking=no ubuntu@$APP_SERVER << EOF
+                    ssh -o StrictHostKeyChecking=no ubuntu@${APP_SERVER} << EOF
 
-                docker pull $DOCKER_IMAGE:latest
+                    docker pull ${DOCKER_IMAGE}:latest
 
-                docker stop banking-container || true
+                    docker stop banking-container || true
 
-                docker rm banking-container || true
+                    docker rm banking-container || true
 
-                docker run -d \
-                --name banking-container \
-                -p 5000:5000 \
-                $DOCKER_IMAGE:latest
+                    docker run -d \\
+                    --name banking-container \\
+                    -p 5000:5000 \\
+                    ${DOCKER_IMAGE}:latest
 
-                EOF
+                    EOF
                 """
             }
         }
