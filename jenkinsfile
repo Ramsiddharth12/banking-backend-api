@@ -17,8 +17,6 @@ pipeline {
             }
         }
 
-    
-
         stage('Build Docker Image') {
             steps {
                 sh 'docker build -t $DOCKER_IMAGE:latest .'
@@ -43,11 +41,11 @@ pipeline {
             }
         }
 
-/*  stage('Deploy To App Server') {
+        stage('Deploy To App Server') {
             steps {
 
                 sh """
-                ssh -o StrictHostKeyChecking=no ubuntu@$APP_SERVER '
+                ssh -o StrictHostKeyChecking=no ubuntu@$APP_SERVER << EOF
 
                 docker pull $DOCKER_IMAGE:latest
 
@@ -59,31 +57,10 @@ pipeline {
                 --name banking-container \
                 -p 5000:5000 \
                 $DOCKER_IMAGE:latest
-                '
-                """
-            }
-        }
-    } */
-
-    stage('Deploy To App Server') {
-            steps {
-
-                sh """
-                ssh -o StrictHostKeyChecking=no ubuntu@13.48.148.73 << EOF
-
-                docker pull ramsiddharth/banking-api:latest
-
-                docker stop banking-container || true
-
-                docker rm banking-container || true
-
-                docker run -d \
-                --name banking-container \
-                -p 5000:5000 \
-                ramsiddharth/banking-api:latest
 
                 EOF
                 """
             }
         }
+    }
 }
