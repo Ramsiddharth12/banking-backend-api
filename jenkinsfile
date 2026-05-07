@@ -19,8 +19,13 @@ pipeline {
 
         stage('Build Application') {
             steps {
-                sh 'docker --version'
-                sh 'python3 --version'
+                sh '''
+                        python3 --version
+
+                        pip3 install -r requirements.txt
+
+                        python3 -m py_compile flask_app.py
+                   '''
             }
         }
 
@@ -52,7 +57,7 @@ pipeline {
             steps {
 
                 sh """
-                ssh -o StrictHostKeyChecking=no ubuntu@13.48.148.73 '
+                ssh -o StrictHostKeyChecking=no ubuntu@$APP_SERVER '
 
                 docker pull $DOCKER_IMAGE:latest
 
